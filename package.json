@@ -1,12 +1,39 @@
 {
   "name": "alphasearch",
   "version": "1.0.0",
-  "description": "AlphaSearch is the Search engine for an Open source \"Non-SEO Powered\" Future, as we belive that as the internet grows so does Google and other big search engine's \"Pay-to-win\" model to get on top, our search engine is comepletly organic results with No SEO, Yes, you heard that right; No SEO At all! Join our movement today and become a part of a better future.",
+  "description": "A simple search engine powered by AlphaBot, allowing users to crawl websites and save results to GitHub.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "lint": "eslint --ext .js,.vue ."
   },
-  "keywords": [],
-  "author": "WolfTech",
-  "license": "ISC"
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.10",
+    "nuxt": "^2.15.8",
+    "@octokit/rest": "^18.0.12"
+  },
+  "devDependencies": {
+    "eslint": "^8.23.1",
+    "eslint-plugin-vue": "^9.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlphaSurf-Browser/AlphaSearch.git"
+  },
+  "keywords": [
+    "search",
+    "crawler",
+    "GitHub",
+    "Nuxt.js",
+    "AlphaBot"
+  ],
+  "author": "WolfTech Innovations",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlphaSurf-Browser/AlphaSearch/issues"
+  },
+  "homepage": "https://github.com/AlphaSurf-Browser/AlphaSearch"
 }
