@@ -63,6 +63,14 @@
         border: 1px solid #ddd;
         border-radius: 4px;
       }
+      .crawled-html {
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #f9f9f9;
+        margin-top: 10px;
+        white-space: pre-wrap; /* Preserve whitespace for HTML formatting */
+        overflow: auto; /* Enable scrolling if the content is large */
+      }
     </style>
   </head>
   <body>
@@ -119,6 +127,7 @@
             <h3>${result.title}</h3>
             <p>${result.description}</p>
             <a href="${result.url}" target="_blank">Read more</a>
+            <div class="crawled-html">${result.crawledHtml}</div>
           `;
           resultsContainer.appendChild(resultItem);
         });
