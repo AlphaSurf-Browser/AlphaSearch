@@ -1,1 +1,33 @@
-<template>\n  <div>\n    <h1>Start AlphaBot Crawler</h1>\n    <input v-model="url" placeholder="Enter URL to crawl" />\n    <button @click="startCrawl">Start Crawl</button>\n    <div v-if="message">{{ message }}</div>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      url: '',\n      message: '',\n    };\n  },\n  methods: {\n    async startCrawl() {\n      try {\n        const response = await this..('/api/start-crawl', { url: this.url });\n        this.message = response.message;\n      } catch (error) {\n        this.message = error.response.data.error || 'An error occurred';\n      }\n    },\n  },\n};\n</script>\n\n<style scoped>\n/* Add any styles you want here */\n</style>
+<template>
+  <div>
+    <h1>Start AlphaBot Crawler</h1>
+    <input v-model="url" placeholder="Enter URL to crawl" />
+    <button @click="startCrawl">Start Crawl</button>
+    <div v-if="message">{{ message }}</div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      url: '',
+      message: '',
+    };
+  },
+  methods: {
+    async startCrawl() {
+      try {
+        const response = await this.$axios.post('/api/start-crawl', { url: this.url });
+        this.message = response.data.message; // Ensure to access the correct response structure
+      } catch (error) {
+        this.message = error.response?.data?.error || 'An error occurred';
+      }
+    },
+  },
+};
+</script>
+
+<style scoped>
+/* Add any styles you want here */
+</style>
