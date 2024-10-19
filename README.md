@@ -1,2 +1,2 @@
 # AlphaSearch
-AlphaSearch: The Search engine for an Open source "Non-SEO Powered" Future
+AlphaSearch is the Search engine for an Open source "Non-SEO Powered" Future, as we belive that as the internet grows so does Google and other big search engine's "Pay-to-win" model to get on top, our search engine is comepletly organic results with No SEO, Yes, you heard that right; No SEO At all! Join our movement today and become a part of a better future.
