@@ -1,6 +1,6 @@
 export default {
   target: 'static', // Set to 'static' for generating a static site
-  ssr: false, // Set to false if you only want static generation
+  ssr: true,
 
   head: {
     title: 'AlphaSearch',
