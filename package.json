@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npm install",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "start": "npm run generate",
     "lint": "eslint --ext .js,.vue ."
   },
   "dependencies": {
