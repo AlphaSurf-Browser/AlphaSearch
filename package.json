@@ -4,7 +4,7 @@
   "description": "A simple search engine powered by AlphaBot, allowing users to crawl websites and save results to GitHub.",
   "main": "index.js",
   "scripts": {
-    "dev": "npm install", // Comma added here
+    "dev": "npm install",
     "build": "nuxt build",
     "start": "nuxt start",
     "lint": "eslint --ext .js,.vue ."
