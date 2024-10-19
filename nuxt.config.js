@@ -1,6 +1,6 @@
 export default {
   target: 'static', // Set to 'static' for generating a static site
-  ssr: true, // Enable server-side rendering
+  ssr: false, // Set to false if you only want static generation
 
   head: {
     title: 'AlphaSearch',
@@ -8,17 +8,6 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
     ],
-  },
-  
-  // Modules
-  modules: [
-    '@nuxtjs/axios', // Include axios for API calls
-  ],
-  
-  // Axios configuration
-  axios: {
-    // Base URL for API requests
-    baseURL: '/',
   },
   
   // Server middleware configuration
@@ -29,5 +18,10 @@ export default {
   // Build configuration
   build: {
     // Add any custom build configurations if necessary
+  },
+
+  // Generate configuration
+  generate: {
+    dir: 'dist', // Specify the output directory for static files
   },
 };
