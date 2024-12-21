@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AlphaSearch</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="preload" href="/_nuxt/8aa9752.js" as="script">
-    <link rel="preload" href="/_nuxt/f9743f0.js" as="script">
-    <link rel="preload" href="/_nuxt/6b4dfd8.js" as="script">
-    <link rel="preload" href="/_nuxt/b062c8c.js" as="script">
     <style>
+      /* Global styles */
       body {
         margin: 0;
         padding: 0;
@@ -21,6 +18,12 @@
         height: 100vh;
         background-color: #ffffff;
         color: #000000;
+        transition: all 0.3s ease;
+      }
+
+      .dark-mode {
+        background-color: #1a1a1a;
+        color: #ffffff;
       }
 
       #branding {
@@ -110,12 +113,48 @@
         background-color: #0056b3;
       }
 
+      #search-results {
+        margin-top: 20px;
+        width: 100%;
+        max-width: 600px;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        color: #333;
+        max-height: 500px;
+        overflow-y: auto;
+      }
+
       footer {
         position: absolute;
         bottom: 20px;
         font-size: 0.9rem;
         color: #666;
         text-align: center;
+      }
+
+      /* Language & Dark Mode Toggle */
+      #language-selector,
+      #dark-mode-toggle {
+        margin-top: 20px;
+        font-size: 1.1rem;
+      }
+
+      #language-selector select,
+      #dark-mode-toggle input {
+        font-size: 1rem;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #f4f4f4;
+        border: 1px solid #ccc;
+      }
+
+      .dark-mode #language-selector select,
+      .dark-mode #dark-mode-toggle input {
+        background-color: #333;
+        color: #fff;
+        border-color: #555;
       }
     </style>
   </head>
@@ -128,11 +167,32 @@
     <div id="greeting"></div>
     <div id="time"></div>
 
+    <!-- Search Form -->
     <div id="search-container">
-      <form id="search-form" action="https://www.google.com/search" method="get">
+      <form id="search-form" action="https://www.google.com/search" method="get" target="search-results-frame">
         <input type="text" id="search-input" name="q" placeholder="Search the web..." required>
         <button type="submit">Search</button>
       </form>
+    </div>
+
+    <!-- Language Selector -->
+    <div id="language-selector">
+      <label for="language">Language: </label>
+      <select id="language" onchange="changeLanguage(event)">
+        <option value="en">English</option>
+        <option value="ja">Japanese</option>
+      </select>
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <div id="dark-mode-toggle">
+      <label for="dark-mode">Dark Mode: </label>
+      <input type="checkbox" id="dark-mode" onchange="toggleDarkMode(event)">
+    </div>
+
+    <!-- Search Results Box -->
+    <div id="search-results">
+      <iframe name="search-results-frame" width="100%" height="400" style="border: none;"></iframe>
     </div>
 
     <footer>
@@ -140,41 +200,66 @@
     </footer>
 
     <script>
-      // Function to update the time and greeting
+      // Time and greeting
       function updateTimeAndGreeting() {
         const now = new Date();
         let hours = now.getHours();
         const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
         const isAM = hours < 12;
-        
-        // Convert to 12-hour format
-        hours = hours % 12 || 12; // 12-hour format, 0 becomes 12
 
-        const timeString = `${hours}:${minutes}:${seconds} ${isAM ? 'AM' : 'PM'}`;
+        // Convert to 12-hour format
+        hours = hours % 12 || 12;
+
+        const timeString = `${hours}:${minutes} ${isAM ? 'AM' : 'PM'}`;
         document.getElementById('time').textContent = timeString;
 
-        // Set greeting based on time of day
+        // Set greeting based on time
         let greeting = '';
         if (hours >= 5 && hours < 12) {
-          greeting = 'Good Morning';
+          greeting = getGreetingText('morning');
         } else if (hours >= 12 && hours < 18) {
-          greeting = 'Good Afternoon';
+          greeting = getGreetingText('afternoon');
         } else {
-          greeting = 'Good Evening';
+          greeting = getGreetingText('evening');
         }
 
         document.getElementById('greeting').textContent = greeting;
       }
 
-      updateTimeAndGreeting(); // Initialize time and greeting
-      setInterval(updateTimeAndGreeting, 1000); // Update time and greeting every second
-    </script>
+      function getGreetingText(timeOfDay) {
+        const language = document.getElementById('language').value;
+        const greetings = {
+          en: {
+            morning: 'Good Morning',
+            afternoon: 'Good Afternoon',
+            evening: 'Good Evening'
+          },
+          ja: {
+            morning: 'おはようございます',
+            afternoon: 'こんにちは',
+            evening: 'こんばんは'
+          }
+        };
+        return greetings[language][timeOfDay];
+      }
 
-    <!-- Vue.js related imports -->
-    <script src="/_nuxt/8aa9752.js"></script>
-    <script src="/_nuxt/f9743f0.js"></script>
-    <script src="/_nuxt/6b4dfd8.js"></script>
-    <script src="/_nuxt/b062c8c.js"></script>
+      // Change language based on selection
+      function changeLanguage(event) {
+        updateTimeAndGreeting();
+      }
+
+      // Toggle dark mode
+      function toggleDarkMode(event) {
+        const body = document.body;
+        if (event.target.checked) {
+          body.classList.add('dark-mode');
+        } else {
+          body.classList.remove('dark-mode');
+        }
+      }
+
+      updateTimeAndGreeting(); // Initialize time and greeting
+      setInterval(updateTimeAndGreeting, 60000); // Update every minute
+    </script>
   </body>
 </html>
