@@ -42,9 +42,17 @@
       }
 
       #time {
-        font-size: 2rem;
-        font-weight: 400;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      #greeting {
+        font-size: 1.8rem;
+        font-weight: 700;
         margin-bottom: 40px;
+        text-align: center;
       }
 
       #search-container {
@@ -130,6 +138,7 @@
       <p>Modern, Simple, Fast</p>
     </div>
 
+    <div id="greeting"></div>
     <div id="time"></div>
 
     <div id="search-container">
@@ -146,17 +155,35 @@
     </footer>
 
     <script>
-      // Update Time
-      function updateTime() {
+      // Function to update the time and greeting
+      function updateTimeAndGreeting() {
         const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
+        let hours = now.getHours();
         const minutes = String(now.getMinutes()).padStart(2, '0');
         const seconds = String(now.getSeconds()).padStart(2, '0');
-        document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+        const isAM = hours < 12;
+        
+        // Convert to 12-hour format
+        hours = hours % 12 || 12; // 12-hour format, 0 becomes 12
+
+        const timeString = `${hours}:${minutes}:${seconds} ${isAM ? 'AM' : 'PM'}`;
+        document.getElementById('time').textContent = timeString;
+
+        // Set greeting based on time of day
+        let greeting = '';
+        if (hours >= 5 && hours < 12) {
+          greeting = 'Good Morning';
+        } else if (hours >= 12 && hours < 18) {
+          greeting = 'Good Afternoon';
+        } else {
+          greeting = 'Good Evening';
+        }
+
+        document.getElementById('greeting').textContent = greeting;
       }
 
-      updateTime(); // Initialize time display
-      setInterval(updateTime, 1000); // Update time every second
+      updateTimeAndGreeting(); // Initialize time and greeting
+      setInterval(updateTimeAndGreeting, 1000); // Update time and greeting every second
 
       // Handle form submission
       document.getElementById('search-form').addEventListener('submit', function(event) {
@@ -193,6 +220,8 @@
         resultsContainer.appendChild(resultItem); // Append the result item to the container
       }
     </script>
+
+    <!-- Vue.js related imports -->
     <script src="/_nuxt/8aa9752.js"></script>
     <script src="/_nuxt/f9743f0.js"></script>
     <script src="/_nuxt/6b4dfd8.js"></script>
