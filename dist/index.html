@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AlphaSearch</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/_nuxt/8aa9752.js" as="script">
+    <link rel="preload" href="/_nuxt/f9743f0.js" as="script">
+    <link rel="preload" href="/_nuxt/6b4dfd8.js" as="script">
+    <link rel="preload" href="/_nuxt/b062c8c.js" as="script">
     <style>
       body {
         margin: 0;
@@ -15,37 +19,32 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        color: white;
-        overflow: hidden;
+        background-color: #ffffff;
+        color: #000000;
       }
 
       #branding {
         text-align: center;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
       }
 
       #branding h1 {
-        font-size: 4rem;
+        font-size: 3rem;
         margin: 0;
         font-weight: 700;
-        letter-spacing: 2px;
-        color: #00e5ff;
+        letter-spacing: 1px;
       }
 
       #branding p {
         font-size: 1.2rem;
-        margin: 10px 0 0;
-        color: #e0e0e0;
+        margin: 5px 0 0;
         font-weight: 300;
       }
 
       #time {
-        text-align: center;
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 400;
-        margin-bottom: 50px;
-        text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff;
+        margin-bottom: 40px;
       }
 
       #search-container {
@@ -61,40 +60,43 @@
         width: 100%;
         border-radius: 8px;
         overflow: hidden;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
       }
 
       #search-input {
         flex: 1;
         padding: 15px;
         font-size: 1rem;
-        border: none;
+        border: 1px solid #ccc;
+        border-right: none;
         outline: none;
-        color: white;
-        background-color: #1e2a36;
+        background-color: #f8f8f8;
+        color: #333;
+        transition: background-color 0.3s;
       }
 
       #search-input::placeholder {
-        color: #9aa0aa;
+        color: #aaa;
       }
 
       #search-input:focus {
-        background-color: #24303f;
+        background-color: #ffffff;
+        border-color: #007BFF;
       }
 
       button {
         padding: 15px 20px;
-        background-color: #00e5ff;
+        background-color: #007BFF;
         border: none;
         cursor: pointer;
-        color: black;
+        color: white;
         font-size: 1rem;
         font-weight: 700;
-        transition: all 0.3s ease;
+        transition: background-color 0.3s ease;
       }
 
       button:hover {
-        background-color: #00b8d4;
+        background-color: #0056b3;
       }
 
       #results-container {
@@ -104,28 +106,20 @@
       }
 
       .result-item {
-        background: rgba(255, 255, 255, 0.1);
+        background: #f8f8f8;
         padding: 15px;
         margin: 10px 0;
         border-radius: 8px;
-        backdrop-filter: blur(5px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      }
-
-      .crawled-html {
-        padding: 10px;
-        background-color: rgba(255, 255, 255, 0.1);
-        color: #d4d4d4;
-        border-radius: 4px;
-        overflow: auto;
-        white-space: pre-wrap;
+        border: 1px solid #ddd;
+        font-size: 0.9rem;
+        color: #333;
       }
 
       footer {
         position: absolute;
         bottom: 20px;
         font-size: 0.9rem;
-        color: #999;
+        color: #666;
         text-align: center;
       }
     </style>
@@ -133,14 +127,14 @@
   <body>
     <div id="branding">
       <h1>AlphaSearch</h1>
-      <p>Your gateway to the web</p>
+      <p>Modern, Simple, Fast</p>
     </div>
 
     <div id="time"></div>
 
     <div id="search-container">
       <form id="search-form">
-        <input type="text" id="search-input" name="query" placeholder="Type your search here..." required>
+        <input type="text" id="search-input" name="query" placeholder="Search the web..." required>
         <button type="submit">Search</button>
       </form>
     </div>
@@ -194,10 +188,14 @@
         // Create a new result item
         const resultItem = document.createElement('div');
         resultItem.className = 'result-item';
-        resultItem.innerHTML = `<div class="crawled-html">${htmlContent}</div>`;
+        resultItem.innerHTML = `<div>${htmlContent}</div>`;
 
         resultsContainer.appendChild(resultItem); // Append the result item to the container
       }
     </script>
+    <script src="/_nuxt/8aa9752.js"></script>
+    <script src="/_nuxt/f9743f0.js"></script>
+    <script src="/_nuxt/6b4dfd8.js"></script>
+    <script src="/_nuxt/b062c8c.js"></script>
   </body>
 </html>
