@@ -16,7 +16,6 @@
             flex-direction: column;
             background: linear-gradient(135deg, #702963, #B57EDC);
             color: #fff;
-            overflow: hidden;
         }
 
         /* Desktop Area */
@@ -29,7 +28,6 @@
             position: relative;
             background: rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
 
         /* Taskbar Styles */
@@ -41,7 +39,6 @@
             align-items: center;
             padding: 10px 20px;
             box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.4);
-            background: linear-gradient(135deg, #ff7e5f, #feb47b);
         }
 
         #taskbar-left, #taskbar-right {
@@ -66,17 +63,6 @@
             background-color: rgba(255, 255, 255, 0.3);
         }
 
-        /* YouTube Music Embed */
-        #music-player {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 300px;
-            height: 200px;
-            border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-        }
-
         /* Menu Styles */
         .menu {
             display: none;
@@ -90,7 +76,6 @@
             justify-content: center;
             align-items: center;
             z-index: 2;
-            background: linear-gradient(45deg, #ff6b6b, #f0f0f0);
         }
 
         .menu-item {
@@ -111,10 +96,6 @@
         /* Clock Styles */
         .clock {
             font-size: 1.5em;
-            background: linear-gradient(45deg, #7b92b3, #5a3b72);
-            padding: 5px 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         /* Widget Styles */
@@ -126,7 +107,6 @@
             padding: 10px;
             z-index: 3;
             max-width: 300px;
-            background: linear-gradient(45deg, #fbbd09, #ff6b6b);
         }
 
         .widget-header {
@@ -182,15 +162,6 @@
         </div>
     </div>
 
-    <!-- YouTube Music Embed -->
-    <div id="music-player">
-        <iframe src="https://music.youtube.com/watch?v=SKLDj7POU8w?autoplay=1&loop=1" 
-                frameborder="0" 
-                allow="autoplay; encrypted-media" 
-                allowfullscreen>
-        </iframe>
-    </div>
-
     <div class="menu" id="menu">
         <div class="menu-item" onclick="addWidget('todo')">To-Do List</div>
         <div class="menu-item" onclick="openGoogleApp('calendar')">Google Calendar</div>
@@ -198,6 +169,22 @@
         <div class="menu-item" onclick="openGoogleApp('drive')">Google Drive</div>
     </div>
 
+    <!-- YouTube Music Embed -->
+
+    <div id="music-player">
+
+        <iframe src="https://youtube.com/watch?v=SKLDj7POU8w?autoplay=1&loop=1" 
+
+                frameborder="0" 
+
+                allow="autoplay; encrypted-media" 
+
+                allowfullscreen>
+
+        </iframe>
+
+    </div>
+    
     <script>
         // Update time every second
         function updateTime() {
