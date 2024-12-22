@@ -6,17 +6,20 @@
     <title>WolfDesk</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        body {
+        /* General Reset */
+        body, html {
             margin: 0;
+            padding: 0;
             font-family: 'Roboto', sans-serif;
+            height: 100%;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            color: #fff;
             background: linear-gradient(135deg, #702963, #B57EDC);
+            color: #fff;
             overflow: hidden;
         }
 
+        /* Desktop Area */
         #desktop {
             flex: 1;
             display: flex;
@@ -25,17 +28,20 @@
             align-items: center;
             position: relative;
             background: rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
 
+        /* Taskbar Styles */
         #taskbar {
             width: 100%;
             background-color: rgba(0, 0, 0, 0.8);
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 10px 20px;
             box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.4);
-            position: relative;
-            align-items: center;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
         }
 
         #taskbar-left, #taskbar-right {
@@ -43,7 +49,7 @@
             align-items: center;
         }
 
-        #taskbar .task-icon {
+        .task-icon {
             width: 40px;
             height: 40px;
             background-color: rgba(255, 255, 255, 0.1);
@@ -56,33 +62,45 @@
             transition: background-color 0.3s;
         }
 
-        #taskbar .task-icon:hover {
+        .task-icon:hover {
             background-color: rgba(255, 255, 255, 0.3);
         }
 
+        /* YouTube Music Embed */
+        #music-player {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 300px;
+            height: 200px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Menu Styles */
         .menu {
             display: none;
-            background-color: rgba(0, 0, 0, 0.95);
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            color: #fff;
+            background-color: rgba(0, 0, 0, 0.95);
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 2;
+            background: linear-gradient(45deg, #ff6b6b, #f0f0f0);
         }
 
         .menu-item {
             font-size: 1.5em;
             padding: 15px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
             margin: 10px 0;
-            border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
         }
 
         .menu-item:hover {
@@ -90,10 +108,16 @@
             color: #333;
         }
 
+        /* Clock Styles */
         .clock {
             font-size: 1.5em;
+            background: linear-gradient(45deg, #7b92b3, #5a3b72);
+            padding: 5px 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
+        /* Widget Styles */
         .widget {
             position: absolute;
             background-color: rgba(255, 255, 255, 0.9);
@@ -101,6 +125,8 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
             padding: 10px;
             z-index: 3;
+            max-width: 300px;
+            background: linear-gradient(45deg, #fbbd09, #ff6b6b);
         }
 
         .widget-header {
@@ -126,10 +152,7 @@
             cursor: pointer;
         }
 
-        .draggable {
-            cursor: move;
-        }
-
+        /* Textarea for Notes */
         textarea {
             width: 100%;
             height: 100%;
@@ -142,6 +165,7 @@
             resize: none;
             box-sizing: border-box;
         }
+
     </style>
 </head>
 <body>
@@ -158,6 +182,15 @@
         </div>
     </div>
 
+    <!-- YouTube Music Embed -->
+    <div id="music-player">
+        <iframe src="https://music.youtube.com/watch?v=SKLDj7POU8w" 
+                frameborder="0" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+        </iframe>
+    </div>
+
     <div class="menu" id="menu">
         <div class="menu-item" onclick="addWidget('todo')">To-Do List</div>
         <div class="menu-item" onclick="openGoogleApp('calendar')">Google Calendar</div>
@@ -166,6 +199,7 @@
     </div>
 
     <script>
+        // Update time every second
         function updateTime() {
             const currentTimeElement = document.getElementById('current-time');
             const now = new Date();
@@ -177,15 +211,16 @@
             const timeString = `${hours}:${minutes} ${ampm}`;
             currentTimeElement.textContent = timeString;
         }
-
         setInterval(updateTime, 1000);
         updateTime();
 
+        // Toggle the visibility of the menu
         function toggleMenu() {
             const menu = document.getElementById('menu');
             menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
         }
 
+        // Add draggable widgets (To-Do List or Notes)
         function addWidget(type) {
             const widget = document.createElement('div');
             widget.className = 'widget draggable';
@@ -205,7 +240,6 @@
 
             const content = document.createElement('div');
             content.className = 'widget-content';
-            
             if (type === 'todo') {
                 const ul = document.createElement('ul');
                 content.appendChild(ul);
@@ -221,6 +255,7 @@
             makeDraggable(widget);
         }
 
+        // Make widgets draggable
         function makeDraggable(element) {
             let posX = 0, posY = 0, mouseX = 0, mouseY = 0;
 
@@ -248,6 +283,7 @@
             }
         }
 
+        // Open Google Apps
         function openGoogleApp(app) {
             let url = '';
             switch(app) {
