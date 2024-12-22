@@ -1,230 +1,391 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
+<head>
+    <base href="https://www.example.com">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlphaSearch</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="preload" href="/_nuxt/8aa9752.js" as="script">
-    <link rel="preload" href="/_nuxt/f9743f0.js" as="script">
-    <link rel="preload" href="/_nuxt/6b4dfd8.js" as="script">
-    <link rel="preload" href="/_nuxt/b062c8c.js" as="script">
+    <title>AlphaStart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Roboto', sans-serif;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #ffffff;
-        color: #000000;
-      }
-
-      #branding {
-        text-align: center;
-        margin-bottom: 30px;
-      }
-
-      #branding h1 {
-        font-size: 3rem;
-        margin: 0;
-        font-weight: 700;
-        letter-spacing: 1px;
-      }
-
-      #branding p {
-        font-size: 1.2rem;
-        margin: 5px 0 0;
-        font-weight: 300;
-      }
-
-      #time {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 10px;
-        text-align: center;
-      }
-
-      #greeting {
-        font-size: 1.8rem;
-        font-weight: 700;
-        margin-bottom: 40px;
-        text-align: center;
-      }
-
-      #search-container {
-        width: 100%;
-        max-width: 600px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      #search-form {
-        display: flex;
-        width: 100%;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-      }
-
-      #search-input {
-        flex: 1;
-        padding: 15px;
-        font-size: 1rem;
-        border: 1px solid #ccc;
-        border-right: none;
-        outline: none;
-        background-color: #f8f8f8;
-        color: #333;
-        transition: background-color 0.3s;
-      }
-
-      #search-input::placeholder {
-        color: #aaa;
-      }
-
-      #search-input:focus {
-        background-color: #ffffff;
-        border-color: #007BFF;
-      }
-
-      button {
-        padding: 15px 20px;
-        background-color: #007BFF;
-        border: none;
-        cursor: pointer;
-        color: white;
-        font-size: 1rem;
-        font-weight: 700;
-        transition: background-color 0.3s ease;
-      }
-
-      button:hover {
-        background-color: #0056b3;
-      }
-
-      #results-container {
-        margin-top: 20px;
-        max-width: 600px;
-        width: 100%;
-      }
-
-      .result-item {
-        background: #f8f8f8;
-        padding: 15px;
-        margin: 10px 0;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-        font-size: 0.9rem;
-        color: #333;
-      }
-
-      footer {
-        position: absolute;
-        bottom: 20px;
-        font-size: 0.9rem;
-        color: #666;
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="branding">
-      <h1>AlphaSearch</h1>
-      <p>Modern, Simple, Fast</p>
-    </div>
-
-    <div id="greeting"></div>
-    <div id="time"></div>
-
-    <div id="search-container">
-      <form id="search-form">
-        <input type="text" id="search-input" name="query" placeholder="Search the web..." required>
-        <button type="submit">Search</button>
-      </form>
-    </div>
-
-    <div id="results-container"></div>
-
-    <footer>
-      &copy; 2024 AlphaSearch. All Rights Reserved.
-    </footer>
-
-    <script>
-      // Function to update the time and greeting
-      function updateTimeAndGreeting() {
-        const now = new Date();
-        let hours = now.getHours();
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        const isAM = hours < 12;
-        
-        // Convert to 12-hour format
-        hours = hours % 12 || 12; // 12-hour format, 0 becomes 12
-
-        const timeString = `${hours}:${minutes}:${seconds} ${isAM ? 'AM' : 'PM'}`;
-        document.getElementById('time').textContent = timeString;
-
-        // Set greeting based on time of day
-        let greeting = '';
-        if (hours >= 5 && hours < 12) {
-          greeting = 'Good Morning';
-        } else if (hours >= 12 && hours < 18) {
-          greeting = 'Good Afternoon';
-        } else {
-          greeting = 'Good Evening';
+        /* Previous styles remain the same until .weather */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #ff4a4a, #6013fe);
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-color: #fff;
+            --accent-color: #ffeb3b;
         }
 
-        document.getElementById('greeting').textContent = greeting;
-      }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      updateTimeAndGreeting(); // Initialize time and greeting
-      setInterval(updateTimeAndGreeting, 1000); // Update time and greeting every second
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: var(--primary-gradient);
+            color: var(--text-color);
+            overflow-x: hidden;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
 
-      // Handle form submission
-      document.getElementById('search-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
 
-        const query = document.getElementById('search-input').value;
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
 
-        fetch(`/api/start-search?query=${encodeURIComponent(query)}`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
             }
-            return response.text(); // Expecting raw HTML response
-          })
-          .then(htmlContent => {
-            displayResults(htmlContent); // Call function to display raw HTML
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('results-container').innerHTML = `<div class="result-item">Error fetching results.</div>`;
-          });
-      });
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
 
-      // Function to display the crawled HTML
-      function displayResults(htmlContent) {
-        const resultsContainer = document.getElementById('results-container');
-        resultsContainer.innerHTML = ''; // Clear previous results
+        .main-card {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+        }
 
-        // Create a new result item
-        const resultItem = document.createElement('div');
-        resultItem.className = 'result-item';
-        resultItem.innerHTML = `<div>${htmlContent}</div>`;
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #fff;
+        }
 
-        resultsContainer.appendChild(resultItem); // Append the result item to the container
-      }
+        .search-bar {
+            display: flex;
+            margin: 20px 0;
+            gap: 10px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 235, 59, 0.3);
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-bar button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            background: var(--accent-color);
+            color: #333;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .search-bar button:hover {
+            transform: scale(1.05);
+        }
+
+        .bookmarks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .bookmark {
+            text-decoration: none;
+            color: var(--text-color);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .bookmark:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .bookmark i {
+            font-size: 1.5em;
+            margin-bottom: 8px;
+        }
+
+        .notes {
+            min-height: 200px;
+        }
+
+        .notes textarea {
+            width: 100%;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            color: var(--text-color);
+            font-size: 1em;
+            resize: none;
+        }
+
+        .notes textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .tasks {
+            min-height: 200px;
+        }
+
+        .task-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .task-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+        }
+
+        .task-input input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .task-input button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: var(--accent-color);
+            color: #333;
+            cursor: pointer;
+        }
+
+        .task-list {
+            list-style: none;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin-bottom: 8px;
+        }
+
+        .task-item button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .task-item button:hover {
+            opacity: 1;
+        }
+
+        .greeting, .time {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+            
+            .search-bar button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card main-card">
+            <h1>AlphaStart</h1>
+            <div class="greeting" id="greeting"></div>
+            <div class="time" id="time"></div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search the universe..." id="searchInput">
+                <button onclick="search()"><i class="fas fa-search"></i> Search</button>
+            </div>
+            <div class="bookmarks">
+                <a href="https://github.com" class="bookmark">
+                    <i class="fab fa-github"></i>
+                    <div>GitHub</div>
+                </a>
+                <a href="https://gmail.com" class="bookmark">
+                    <i class="fas fa-envelope"></i>
+                    <div>Gmail</div>
+                </a>
+                <a href="https://youtube.com" class="bookmark">
+                    <i class="fab fa-youtube"></i>
+                    <div>YouTube</div>
+                </a>
+                <a href="https://reddit.com" class="bookmark">
+                    <i class="fab fa-reddit"></i>
+                    <div>Reddit</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="card notes">
+            <h3><i class="fas fa-sticky-note"></i> Quick Notes</h3>
+            <textarea id="notes" placeholder="Write your thoughts here..."></textarea>
+        </div>
+
+        <div class="card tasks">
+            <h3><i class="fas fa-tasks"></i> Tasks</h3>
+            <div class="task-input">
+                <input type="text" id="taskInput" placeholder="Add a new task...">
+                <button onclick="addTask()">Add</button>
+            </div>
+            <ul class="task-list" id="taskList"></ul>
+        </div>
+    </div>
+
+    <script>
+        // Time and Greeting
+        function updateTime() {
+            const timeElement = document.getElementById('time');
+            const greetingElement = document.getElementById('greeting');
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}`;
+            
+            let greeting;
+            if (hours < 12) greeting = 'Good Morning!';
+            else if (hours < 18) greeting = 'Good Afternoon!';
+            else greeting = 'Good Evening!';
+
+            timeElement.innerHTML = `<i class="far fa-clock"></i> ${timeString}`;
+            greetingElement.textContent = greeting;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Search functionality
+        function search() {
+            const query = document.getElementById('searchInput').value;
+            if (query.trim()) {
+                window.location.href = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+            }
+        }
+
+        // Enter key for search
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') search();
+        });
+
+        // Notes persistence
+        const notes = document.getElementById('notes');
+        notes.value = localStorage.getItem('notes') || '';
+        notes.addEventListener('input', () => {
+            localStorage.setItem('notes', notes.value);
+        });
+
+        // Tasks
+        const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+        const taskList = document.getElementById('taskList');
+
+        function saveTasks() {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const task = input.value.trim();
+            if (task) {
+                tasks.push({ text: task, completed: false });
+                saveTasks();
+                renderTasks();
+                input.value = '';
+            }
+        }
+
+        function toggleTask(index) {
+            tasks[index].completed = !tasks[index].completed;
+            saveTasks();
+            renderTasks();
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            saveTasks();
+            renderTasks();
+        }
+
+        function renderTasks() {
+            taskList.innerHTML = tasks.map((task, index) => `
+                <li class="task-item" style="text-decoration: ${task.completed ? 'line-through' : 'none'}">
+                    <input type="checkbox" ${task.completed ? 'checked' : ''} 
+                           onclick="toggleTask(${index})">
+                    <span>${task.text}</span>
+                    <button onclick="deleteTask(${index})" style="margin-left: auto">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </li>
+            `).join('');
+        }
+
+        renderTasks();
+
+        // Add task on Enter key
+        document.getElementById('taskInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTask();
+        });
+
+        // Initialize animations
+        document.querySelectorAll('.card').forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
     </script>
-
-    <!-- Vue.js related imports -->
-    <script src="/_nuxt/8aa9752.js"></script>
-    <script src="/_nuxt/f9743f0.js"></script>
-    <script src="/_nuxt/6b4dfd8.js"></script>
-    <script src="/_nuxt/b062c8c.js"></script>
-  </body>
+</body>
 </html>
