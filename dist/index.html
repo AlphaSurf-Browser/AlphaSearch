@@ -166,7 +166,6 @@
     </div>
 
     <script>
-        // Update time
         function updateTime() {
             const currentTimeElement = document.getElementById('current-time');
             const now = new Date();
@@ -182,13 +181,11 @@
         setInterval(updateTime, 1000);
         updateTime();
 
-        // Toggle menu
         function toggleMenu() {
             const menu = document.getElementById('menu');
             menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
         }
 
-        // Add draggable widgets
         function addWidget(type) {
             const widget = document.createElement('div');
             widget.className = 'widget draggable';
@@ -208,9 +205,9 @@
 
             const content = document.createElement('div');
             content.className = 'widget-content';
+            
             if (type === 'todo') {
                 const ul = document.createElement('ul');
-                ul.innerHTML = '<li>Example Task</li>';
                 content.appendChild(ul);
             } else if (type === 'notes') {
                 const textarea = document.createElement('textarea');
@@ -224,7 +221,6 @@
             makeDraggable(widget);
         }
 
-        // Make widgets draggable
         function makeDraggable(element) {
             let posX = 0, posY = 0, mouseX = 0, mouseY = 0;
 
@@ -252,7 +248,6 @@
             }
         }
 
-        // Open Google Apps
         function openGoogleApp(app) {
             let url = '';
             switch(app) {
