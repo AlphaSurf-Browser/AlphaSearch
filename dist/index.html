@@ -13,6 +13,7 @@
             flex-direction: column;
             height: 100vh;
             color: #fff;
+            background: linear-gradient(135deg, #702963, #B57EDC);
             overflow: hidden;
         }
 
@@ -21,19 +22,20 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             position: relative;
-            padding-top: 20px;
+            background: rgba(0, 0, 0, 0.1);
         }
 
         #taskbar {
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.8);
             display: flex;
             justify-content: space-between;
-            padding: 10px;
+            padding: 10px 20px;
             box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.4);
             position: relative;
+            align-items: center;
         }
 
         #taskbar-left, #taskbar-right {
@@ -44,18 +46,23 @@
         #taskbar .task-icon {
             width: 40px;
             height: 40px;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 50%;
             margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+
+        #taskbar .task-icon:hover {
+            background-color: rgba(255, 255, 255, 0.3);
         }
 
         .menu {
             display: none;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.95);
             position: absolute;
             top: 0;
             left: 0;
@@ -73,6 +80,9 @@
             padding: 15px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .menu-item:hover {
@@ -82,56 +92,42 @@
 
         .clock {
             font-size: 1.5em;
-            color: #fff;
         }
 
-        .clock-container {
+        .widget {
             position: absolute;
-            top: 10px;
-            right: 20px;
-            z-index: 2;
-        }
-
-        /* Notepad window */
-        .window {
-            position: absolute;
-            top: 10vh;
-            left: 10vw;
-            width: 80%;
-            height: 60%;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            display: none;
-            flex-direction: column;
+            padding: 10px;
             z-index: 3;
         }
 
-        .window-header {
-            background-color: #444;
+        .widget-header {
+            background-color: #B57EDC;
             color: #fff;
             padding: 10px;
+            border-radius: 8px 8px 0 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: default;
         }
 
-        .window-content {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            text-align: left;
-            font-size: 1.2em;
+        .widget-content {
+            padding: 10px;
         }
 
-        .window-close {
+        .widget-close {
             background-color: #ff4d4d;
             border: none;
             border-radius: 50%;
             width: 20px;
             height: 20px;
             cursor: pointer;
+        }
+
+        .draggable {
+            cursor: move;
         }
 
         textarea {
@@ -141,17 +137,16 @@
             font-size: 1.2em;
             padding: 10px;
             border: none;
-            background-color: #f5f5f5;
+            background-color: #f0f0f0;
             border-radius: 5px;
             resize: none;
             box-sizing: border-box;
         }
-
     </style>
 </head>
 <body>
     <div id="desktop">
-        <p>Welcome to WolfOS!</p>
+        <h1>Welcome to WolfDesk!</h1>
     </div>
 
     <div id="taskbar">
@@ -159,49 +154,19 @@
             <div class="task-icon" onclick="toggleMenu()">☰</div>
         </div>
         <div id="taskbar-right">
-            <div class="clock-container">
-                <div class="clock" id="current-time"></div>
-            </div>
+            <div class="clock" id="current-time"></div>
         </div>
     </div>
 
     <div class="menu" id="menu">
-        <div class="menu-item" onclick="openApp('weather')">Weather</div>
-        <div class="menu-item" onclick="openApp('search')">Search</div>
-        <div class="menu-item" onclick="openApp('notepad')">Notepad</div>
+        <div class="menu-item" onclick="addWidget('todo')">To-Do List</div>
         <div class="menu-item" onclick="openGoogleApp('calendar')">Google Calendar</div>
+        <div class="menu-item" onclick="addWidget('notes')">Quick Notes</div>
         <div class="menu-item" onclick="openGoogleApp('drive')">Google Drive</div>
-        <div class="menu-item" onclick="openGoogleApp('docs')">Google Docs</div>
-        <div class="menu-item" onclick="openGoogleApp('gmail')">Gmail</div>
-    </div>
-
-    <div class="window" id="window-notepad">
-        <div class="window-header">
-            <span>Notepad</span>
-            <button class="window-close" onclick="closeApp('notepad')"></button>
-        </div>
-        <div class="window-content">
-            <textarea id="notepad-text" placeholder="Write your notes here..."></textarea>
-        </div>
     </div>
 
     <script>
-        // Handle Super key press to toggle taskbar and go fullscreen
-        window.addEventListener('keydown', function(event) {
-            // Check for the Super (Windows) key (keyCode 91 or 92)
-            if (event.keyCode === 91 || event.keyCode === 92) {
-                // Toggle menu (taskbar)
-                toggleMenu();
-
-                // Make the browser fullscreen
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen().catch(err => console.log("Error attempting to enable fullscreen: " + err));
-                } else {
-                    document.exitFullscreen();
-                }
-            }
-        });
-
+        // Update time
         function updateTime() {
             const currentTimeElement = document.getElementById('current-time');
             const now = new Date();
@@ -217,35 +182,77 @@
         setInterval(updateTime, 1000);
         updateTime();
 
-        // Toggle the menu display
+        // Toggle menu
         function toggleMenu() {
             const menu = document.getElementById('menu');
             menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
         }
 
-        function openApp(app) {
-            switch(app) {
-                case 'weather':
-                    window.location.href = 'https://weather.com'; // Redirect to weather site
-                    break;
-                case 'search':
-                    window.location.href = 'https://duckduckgo.com'; // Redirect to search engine
-                    break;
-                case 'notepad':
-                    openNotepad(); // Open Notepad app
-                    break;
+        // Add draggable widgets
+        function addWidget(type) {
+            const widget = document.createElement('div');
+            widget.className = 'widget draggable';
+            widget.style.top = '20vh';
+            widget.style.left = '20vw';
+
+            const header = document.createElement('div');
+            header.className = 'widget-header';
+            header.textContent = type === 'todo' ? 'To-Do List' : 'Quick Notes';
+
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'widget-close';
+            closeBtn.onclick = () => widget.remove();
+
+            header.appendChild(closeBtn);
+            widget.appendChild(header);
+
+            const content = document.createElement('div');
+            content.className = 'widget-content';
+            if (type === 'todo') {
+                const ul = document.createElement('ul');
+                ul.innerHTML = '<li>Example Task</li>';
+                content.appendChild(ul);
+            } else if (type === 'notes') {
+                const textarea = document.createElement('textarea');
+                textarea.placeholder = 'Write something...';
+                content.appendChild(textarea);
             }
-            toggleMenu(); // Close menu when an app is opened
+
+            widget.appendChild(content);
+            document.body.appendChild(widget);
+
+            makeDraggable(widget);
         }
 
-        function openNotepad() {
-            document.getElementById('window-notepad').style.display = 'flex';
+        // Make widgets draggable
+        function makeDraggable(element) {
+            let posX = 0, posY = 0, mouseX = 0, mouseY = 0;
+
+            element.onmousedown = (e) => {
+                e.preventDefault();
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                document.onmouseup = closeDrag;
+                document.onmousemove = drag;
+            };
+
+            function drag(e) {
+                e.preventDefault();
+                posX = mouseX - e.clientX;
+                posY = mouseY - e.clientY;
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                element.style.top = (element.offsetTop - posY) + "px";
+                element.style.left = (element.offsetLeft - posX) + "px";
+            }
+
+            function closeDrag() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
         }
 
-        function closeApp(app) {
-            document.getElementById(`window-${app}`).style.display = 'none';
-        }
-
+        // Open Google Apps
         function openGoogleApp(app) {
             let url = '';
             switch(app) {
@@ -255,15 +262,9 @@
                 case 'drive':
                     url = 'https://drive.google.com';
                     break;
-                case 'docs':
-                    url = 'https://docs.google.com';
-                    break;
-                case 'gmail':
-                    url = 'https://mail.google.com';
-                    break;
             }
-            window.location.href = url; // Open Google app in the same tab
-            toggleMenu(); // Close menu when an app is opened
+            window.open(url, '_blank');
+            toggleMenu();
         }
     </script>
 </body>
