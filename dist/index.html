@@ -1,20 +1,102 @@
-<html><head><base href="https://www.example.com">
+<html>
+<head>
+<base href="https://www.example.com">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AlphaStart</title>
+<title>WolfOS</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
     body {
         margin: 0;
         font-family: 'Roboto', sans-serif;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
         background: linear-gradient(135deg, #ff4a4a, #6013fe);
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
         color: #fff;
         overflow: hidden;
+    }
+
+    #desktop {
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        background: linear-gradient(135deg, #5981b0, #6ca471);
+        padding-top: 40px;
+        position: relative;
+    }
+    
+    #taskbar {
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 2;
+    }
+
+    #taskbar-left, #taskbar-right {
+        display: flex;
+        column-gap: 20px;
+        align-items: center;
+    }
+    
+    #taskbar .task-icon {
+        width: 40px;
+        height: 40px;
+        background-color: #fff; /* White circle */
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+    }
+
+    #window {
+        position: absolute;
+        top: 15vh;
+        left: 5vw;
+        width: 80%;
+        height: 60%;
+        background: rgba(255, 255, 255, 1.0);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+        display: none;
         flex-direction: column;
+        border-radius: 8px;
+        overflow: hidden;
+        z-index: 3;
+    }
+
+    #window-header {
+        background-color: #444;
+        color: #fff;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: default;
+    }
+
+    #window-content {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        text-align: center;
+        font-size: 3em;
+        font-weight: bold;
+    }
+
+    #close-btn {
+        background-color: #ff4d4d;
+        border: none;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
     }
 
     .container {
@@ -28,6 +110,7 @@
         border-radius: 15px;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         animation: popIn 2s ease-out;
+        align-self: center;
     }
 
     h1 {
@@ -80,26 +163,6 @@
         background-color: #fdd835;
     }
 
-    .background {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(255, 0, 0, 0.5), rgba(96, 19, 254, 0.5));
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 80%);
-        z-index: 0;
-        animation: moveBackground 4s infinite alternate;
-    }
-
-    @keyframes popIn {
-        0% { transform: scale(0); }
-        100% { transform: scale(1); }
-    }
-
-    @keyframes moveBackground {
-        0% { transform: rotate(0deg) translateX(0); }
-        100% { transform: rotate(-10deg) translateX(-20px); }
-    }
-
     .notepad {
         position: fixed;
         top: 20px;
@@ -109,6 +172,7 @@
         padding: 15px;
         border-radius: 10px;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        z-index: 2;
     }
 
     .notepad textarea {
@@ -126,52 +190,128 @@
         box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
     }
 
+    .background {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(255, 0, 0, 0.5), rgba(96, 19, 254, 0.5));
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 80%);
+        z-index: 0;
+        animation: moveBackground 4s infinite alternate;
+    }
+
+    .circle-icon {
+        width: 100px;
+        height: 100px;
+        background-color: #fff;
+        border-radius: 50%;
+        margin: auto;
+        position: relative;
+        top: 50vh;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes popIn {
+        0% { transform: scale(0); }
+        100% { transform: scale(1); }
+    }
+
+    @keyframes moveBackground {
+        0% { transform: rotate(0deg) translateX(0); }
+        100% { transform: rotate(-10deg) translateX(-20px); }
+    }
 </style>
 </head>
 <body>
-    <div class="background"></div>
-    <div class="container">
-        <h1>Welcome to AlphaStart</h1>
-        <div class="greeting" id="greeting"></div>
-        <div class="time" id="time"></div>
-        <div class="search-bar">
-            <input type="text" placeholder="Search the universe">
-            <button>Search</button>
+<div class="background"></div>
+<div id="desktop">
+    <!-- No apps for now, focused on task menu -->
+</div>
+<div id="taskbar">
+    <div id="taskbar-left">
+        <div class="task-icon" onclick="toggleMenu()">
+            <!-- Single filled circle as an icon -->
         </div>
     </div>
-    <div class="notepad">
-        <textarea placeholder="Write your memo here..."></textarea>
+    <div id="taskbar-right">
+        <div class="time" id="current-time"></div>
     </div>
+</div>
+<div class="circle-icon">
+    C
+</div>
+<div id="window">
+    <div id="window-header">
+        <span id="window-title">WolfOS Version 2.13</span>
+        <button id="close-btn" onclick="closeApp()"></button>
+    </div>
+    <div id="window-content">
+        <h2 style="margin: 0;">WolfOS Version 2.13</h2>
+    </div>
+</div>
+<div class="container">
+    <h1>Welcome to AlphaStart</h1>
+    <div class="greeting" id="greeting"></div>
+    <div class="time" id="time"></div>
+    <div class="search-bar">
+        <input type="text" placeholder="Search the universe" id="search-input">
+        <button id="search-button">Search</button>
+    </div>
+</div>
+<div class="notepad">
+    <textarea placeholder="Write your memo here..."></textarea>
+</div>
 
-    <script>
-        function updateTime() {
-            const timeElement = document.getElementById('time');
-            const greetingElement = document.getElementById('greeting');
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const timeString = `${hours}:${minutes}`;
-            timeElement.textContent = `Current Time: ${timeString}`;
+<script>
+    function closeApp() {
+        const window = document.getElementById('window');
+        window.style.display = 'none';
+    }
 
-            let greeting;
-            if (hours < 12) {
-                greeting = 'Good Morning!';
-            } else if (hours < 18) {
-                greeting = 'Good Afternoon!';
-            } else {
-                greeting = 'Good Evening!';
-            }
-            greetingElement.textContent = greeting;
+    function toggleMenu() {
+        const windowElement = document.getElementById('window');
+        windowElement.style.display = windowElement.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function updateTime() {
+        const timeElement = document.getElementById('time');
+        const currentTimeElement = document.getElementById('current-time'); 
+        const greetingElement = document.getElementById('greeting');
+        const now = new Date();
+        let hours = now.getHours();
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        const timeString = `${hours}:${minutes} ${ampm}`;
+        timeElement.textContent = `Current Time: ${timeString}`;
+        currentTimeElement.textContent = timeString;
+
+        let greeting;
+        if (hours < 12 && ampm === 'AM') {
+            greeting = 'Good Morning!';
+        } else if (hours < 6 || (hours === 6 && minutes === '00')) {
+            greeting = 'Good Afternoon!';
+        } else {
+            greeting = 'Good Evening!';
         }
+        greetingElement.textContent = greeting;
+    }
 
-        setInterval(updateTime, 1000);
-        updateTime();
+    setInterval(updateTime, 1000);
+    updateTime();
 
-        document.querySelector('button').addEventListener('click', function() {
-            const query = document.querySelector('input[type="text"]').value;
+    document.getElementById('search-button').addEventListener('click', function() {
+        const query = document.getElementById('search-input').value;
+        if (query.trim() !== "") {
             const searchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
-            window.location.href = searchUrl;
-        });
-    </script>
+            window.open(searchUrl, '_blank');
+        }
+    });
+</script>
 </body>
 </html>
