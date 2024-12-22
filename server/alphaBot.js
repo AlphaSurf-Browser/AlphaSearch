@@ -17,7 +17,13 @@ class AlphaBot {
         this.visitedUrls.add(url);
 
         try {
-            const { data } = await axios.get(url);
+            // Add custom headers for AlphaBot
+            const headers = {
+                'User-Agent': 'AlphaBot/1.0 (+https://github.com/AlphaSurf-Browser/AlphaSearch)',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            };
+
+            const { data } = await axios.get(url, { headers }); // Pass headers in axios request
             const $ = cheerio.load(data);
             const pageContent = $('body').text();
 
